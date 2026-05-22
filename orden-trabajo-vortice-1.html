@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OT — Vórtice E&C SAS</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#0f2138; --cyan:#00b8d9; --light:#f0f7fa;
+  --border:#cce0ea; --text:#1a2e3d; --muted:#6b8fa3;
+  --green:#00c878; --r:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--light);font-family:'Barlow',sans-serif;color:var(--text);font-size:14px;}
+
+/* HEADER */
+.hdr{background:var(--navy);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:99;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.hdr-brand{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:#fff;letter-spacing:1px;}
+.hdr-brand span{color:var(--cyan);}
+.hdr-sub{font-size:10px;color:var(--muted);}
+.hdr-ot{text-align:right;}
+.hdr-ot-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.hdr-ot-num{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--cyan);}
+.progress-bar{background:#1a3352;height:3px;}
+.progress-fill{height:100%;background:linear-gradient(90deg,#0097b2,var(--cyan));transition:width .3s;width:0%;}
+
+/* MAIN */
+.main{max-width:600px;margin:0 auto;padding:12px 12px 80px;}
+
+/* CARD */
+.card{background:#fff;border-radius:var(--r);margin-bottom:10px;overflow:hidden;box-shadow:0 1px 4px rgba(15,33,56,.07);}
+.card-head{background:var(--navy);padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.card-head-icon{font-size:13px;}
+.card-head-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;color:#fff;text-transform:uppercase;letter-spacing:.5px;}
+.card-body{padding:10px 12px;display:flex;flex-direction:column;gap:8px;}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;}
+
+/* FIELD */
+.f{display:flex;flex-direction:column;gap:3px;}
+.f label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;}
+.f input,.f select,.f textarea{background:var(--light);border:1.5px solid var(--border);border-radius:6px;padding:8px 10px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--text);width:100%;-webkit-appearance:none;transition:border-color .15s;}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--cyan);background:#fff;}
+.f textarea{resize:vertical;min-height:60px;line-height:1.4;}
+
+/* TRABAJOS */
+.trab{display:flex;gap:6px;align-items:center;}
+.trab-n{width:22px;height:22px;background:var(--navy);color:var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;flex-shrink:0;}
+.trab input{flex:1;background:var(--light);border:1.5px solid var(--border);border-radius:6px;padding:7px 10px;font-family:'Barlow',sans-serif;font-size:14px;color:var(--text);}
+.trab input:focus{outline:none;border-color:var(--cyan);background:#fff;}
+
+/* MATERIALES */
+.mat-hdr{display:grid;grid-template-columns:1fr 52px 70px 70px;gap:4px;padding:5px 6px;background:#1a3352;border-radius:4px 4px 0 0;}
+.mat-hdr span{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--cyan);font-weight:600;text-align:right;}
+.mat-hdr span:first-child{text-align:left;}
+.mat-row{display:grid;grid-template-columns:1fr 52px 70px 70px;gap:4px;padding:3px 0;border-bottom:1px solid var(--border);}
+.mat-row input{background:var(--light);border:1.5px solid var(--border);border-radius:5px;padding:5px 6px;font-size:13px;font-family:'Barlow',sans-serif;color:var(--text);width:100%;text-align:right;}
+.mat-row input:first-child{text-align:left;}
+.mat-row input:focus{outline:none;border-color:var(--cyan);background:#fff;}
+.mat-row input[readonly]{background:#f0f7fa;color:var(--muted);}
+.mat-foot{display:grid;grid-template-columns:1fr 192px;gap:4px;padding:4px 0;}
+.mat-foot-lbl{font-size:12px;color:var(--muted);text-align:right;padding-right:6px;display:flex;align-items:center;justify-content:flex-end;}
+.mat-foot input{background:var(--light);border:1.5px solid var(--border);border-radius:5px;padding:5px 6px;font-size:13px;font-family:'Barlow',sans-serif;width:100%;text-align:right;}
+.mat-total{background:var(--navy);border-radius:0 0 4px 4px;padding:7px 8px;display:flex;justify-content:space-between;align-items:center;}
+.mat-total-lbl{font-family:'Barlow Condensed',sans-serif;font-size:14px;color:#fff;font-weight:600;}
+.mat-total-val{font-family:'Barlow Condensed',sans-serif;font-size:16px;color:var(--cyan);font-weight:700;}
+
+/* FOTOS */
+.foto-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.foto-item label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border:2px dashed var(--border);border-radius:var(--r);padding:10px;cursor:pointer;transition:all .2s;min-height:80px;position:relative;}
+.foto-item label.taken{border-color:var(--green);background:rgba(0,200,120,.05);}
+.foto-item input[type=file]{display:none;}
+.foto-item-lbl{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.foto-item label.taken .foto-item-lbl{color:var(--green);}
+.foto-preview{width:100%;border-radius:6px;max-height:120px;object-fit:cover;margin-top:4px;display:none;}
+.foto-check-badge{position:absolute;top:5px;right:5px;background:var(--green);color:#fff;border-radius:50%;width:16px;height:16px;font-size:10px;display:none;align-items:center;justify-content:center;}
+.foto-item label.taken .foto-check-badge{display:flex;}
+
+/* PAGO */
+.pago-row{display:flex;gap:8px;}
+.pago-opt{flex:1;border:2px solid var(--border);border-radius:var(--r);padding:8px 6px;text-align:center;cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);transition:all .2s;}
+.pago-opt.sel{border-color:var(--cyan);background:rgba(0,184,217,.08);color:var(--cyan);}
+.pago-opt span{display:block;font-size:16px;margin-bottom:2px;}
+
+/* BOTTOM */
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:10px 12px;display:flex;gap:8px;box-shadow:0 -3px 12px rgba(0,0,0,.07);}
+.btn-clear{border:2px solid var(--border);background:none;border-radius:8px;padding:12px 16px;font-family:'Barlow',sans-serif;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;}
+.btn-pdf{flex:1;background:var(--navy);border:none;border-radius:8px;padding:12px;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:1px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn-pdf:active{background:var(--cyan);}
+
+/* PRINT */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  body{background:#fff;font-size:11px;}
+  .hdr{position:static!important;}
+  .progress-bar,.bottom{display:none!important;}
+  .main{padding:6px;max-width:100%;}
+  .card{margin-bottom:6px;box-shadow:none;border:1px solid #ddd;page-break-inside:avoid;}
+  .f input,.f select,.f textarea,.trab input,.mat-row input,.mat-foot input{border:none!important;background:transparent!important;padding:1px 2px!important;font-size:11px!important;}
+  .mat-row input[readonly]{background:#f5f5f5!important;}
+  .foto-preview{display:block!important;max-height:100px;}
+  .pago-opt{border:1px solid #ddd!important;}
+  select{-webkit-appearance:none;border:none!important;background:transparent!important;}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <div class="hdr-brand">VÓRTICE <span>E&amp;C SAS</span></div>
+    <div class="hdr-sub">Refrigeración · Maquinaria Industrial</div>
+  </div>
+  <div class="hdr-ot">
+    <div class="hdr-ot-lbl">Orden No.</div>
+    <div class="hdr-ot-num" id="otDisplay">001</div>
+  </div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
+
+<div class="main">
+
+  <!-- INFO + CLIENTE -->
+  <div class="card">
+    <div class="card-head"><span class="card-head-icon">📋</span><span class="card-head-title">General y Cliente</span></div>
+    <div class="card-body">
+      <div class="g4">
+        <div class="f"><label>No. Orden</label><input id="otNum" value="001" oninput="document.getElementById('otDisplay').textContent=this.value||'001';prog()"></div>
+        <div class="f"><label>Fecha</label><input type="date" id="fecha" oninput="prog()"></div>
+        <div class="f"><label>Inicio</label><input type="time" id="horaInicio"></div>
+        <div class="f"><label>Fin</label><input type="time" id="horaFin"></div>
+      </div>
+      <div class="g2">
+        <div class="f"><label>Técnico</label><input id="tecnico" placeholder="Nombre" oninput="prog()"></div>
+        <div class="f"><label>Cliente / Empresa</label><input id="cliente" placeholder="Nombre o razón social" oninput="prog()"></div>
+      </div>
+      <div class="g2">
+        <div class="f"><label>Teléfono</label><input type="tel" id="telefono" placeholder="Cel / fijo"></div>
+        <div class="f"><label>Dirección</label><input id="direccion" placeholder="Dirección del servicio" oninput="prog()"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EQUIPO -->
+  <div class="card">
+    <div class="card-head"><span class="card-head-icon">❄️</span><span class="card-head-title">Equipo</span></div>
+    <div class="card-body">
+      <div class="g2">
+        <div class="f"><label>Tipo de equipo</label>
+          <select id="tipoEquipo" oninput="prog()">
+            <option value="">Seleccionar...</option>
+            <optgroup label="Refrigeración">
+              <option>Cuarto frío</option>
+              <option>Refrigerador comercial</option>
+              <option>Nevera de postres / vitrina</option>
+              <option>Congelador vertical</option>
+              <option>Congelador horizontal</option>
+              <option>Chiller industrial</option>
+              <option>Unidad condensadora</option>
+              <option>Compresor industrial</option>
+            </optgroup>
+            <optgroup label="Panadería y cocina">
+              <option>Horno industrial</option>
+              <option>Horno de convección</option>
+              <option>Horno de piso / panadero</option>
+              <option>Freidora industrial</option>
+              <option>Plancha industrial</option>
+              <option>Batidora industrial</option>
+              <option>Amasadora</option>
+              <option>Cámara de fermentación</option>
+              <option>Estufa industrial</option>
+            </optgroup>
+            <optgroup label="Climatización">
+              <option>Minisplit</option>
+              <option>Aire central</option>
+              <option>Extractor / ventilador</option>
+              <option>Torre de enfriamiento</option>
+            </optgroup>
+            <optgroup label="Otro">
+              <option>Otro equipo</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="f"><label>Marca / Modelo</label><input id="marcaModelo" placeholder="Ej: Tecumseh TH4"></div>
+      </div>
+      <div class="g2">
+        <div class="f"><label>Serial (opcional)</label><input id="serial" placeholder="S/N"></div>
+        <div class="f"><label>Ubicación</label><input id="ubicacion" placeholder="Ej: Cuarto trasero"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIAGNÓSTICO Y TRABAJOS -->
+  <div class="card">
+    <div class="card-head"><span class="card-head-icon">🔧</span><span class="card-head-title">Diagnóstico y Trabajos</span></div>
+    <div class="card-body">
+      <div class="f"><label>Falla / motivo del servicio</label>
+        <textarea id="diagnostico" placeholder="Describe la falla o motivo del servicio..." oninput="prog()"></textarea>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div class="trab"><div class="trab-n">1</div><input id="t1" placeholder="Trabajo realizado..." oninput="prog()"></div>
+        <div class="trab"><div class="trab-n">2</div><input id="t2" placeholder="Trabajo realizado..."></div>
+        <div class="trab"><div class="trab-n">3</div><input id="t3" placeholder="Trabajo realizado..."></div>
+        <div class="trab"><div class="trab-n">4</div><input id="t4" placeholder="Opcional..."></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MATERIALES -->
+  <div class="card">
+    <div class="card-head"><span class="card-head-icon">🧰</span><span class="card-head-title">Materiales y Cobro</span></div>
+    <div class="card-body">
+      <div>
+        <div class="mat-hdr">
+          <span>Descripción</span><span>Cant.</span><span>V.Unit $</span><span>Total $</span>
+        </div>
+        <div id="matBody">
+          <div class="mat-row"><input placeholder="Material o repuesto"><input type="number" placeholder="1" min="0" oninput="calcMat()" style="text-align:right"><input type="number" placeholder="0" min="0" oninput="calcMat()" style="text-align:right"><input type="number" readonly style="text-align:right"></div>
+          <div class="mat-row"><input placeholder="Material o repuesto"><input type="number" placeholder="1" min="0" oninput="calcMat()" style="text-align:right"><input type="number" placeholder="0" min="0" oninput="calcMat()" style="text-align:right"><input type="number" readonly style="text-align:right"></div>
+          <div class="mat-row"><input placeholder="Material o repuesto"><input type="number" placeholder="1" min="0" oninput="calcMat()" style="text-align:right"><input type="number" placeholder="0" min="0" oninput="calcMat()" style="text-align:right"><input type="number" readonly style="text-align:right"></div>
+        </div>
+        <div class="mat-foot">
+          <div class="mat-foot-lbl">Mano de obra:</div>
+          <input type="number" id="manoObra" placeholder="0" min="0" oninput="calcMat()" style="text-align:right;background:#fff;border:1.5px solid var(--border);border-radius:5px;padding:5px 6px;font-size:13px;font-family:'Barlow',sans-serif;">
+        </div>
+        <div class="mat-total">
+          <span class="mat-total-lbl">TOTAL A COBRAR</span>
+          <span class="mat-total-val" id="totalFinal">$ 0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOTOS + CIERRE -->
+  <div class="card">
+    <div class="card-head"><span class="card-head-icon">📷</span><span class="card-head-title">Fotos y Cierre</span></div>
+    <div class="card-body">
+      <div class="foto-grid">
+        <div class="foto-item">
+          <label id="lblBefore">
+            <div class="foto-check-badge">✓</div>
+            <input type="file" accept="image/*" id="inBefore" onchange="previewFoto(this,'prevBefore','lblBefore')">
+            <span style="font-size:22px">📸</span>
+            <span class="foto-item-lbl">Foto ANTES</span>
+            <img id="prevBefore" class="foto-preview">
+          </label>
+        </div>
+        <div class="foto-item">
+          <label id="lblAfter">
+            <div class="foto-check-badge">✓</div>
+            <input type="file" accept="image/*" id="inAfter" onchange="previewFoto(this,'prevAfter','lblAfter')">
+            <span style="font-size:22px">📸</span>
+            <span class="foto-item-lbl">Foto DESPUÉS</span>
+            <img id="prevAfter" class="foto-preview">
+          </label>
+        </div>
+      </div>
+      <div>
+        <label style="font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:6px">Forma de Pago</label>
+        <div class="pago-row">
+          <div class="pago-opt sel" id="pEfectivo" onclick="selPago('Efectivo')"><span>💵</span>Efectivo</div>
+          <div class="pago-opt" id="pTransferencia" onclick="selPago('Transferencia')"><span>📱</span>Transf.</div>
+          <div class="pago-opt" id="pCredito" onclick="selPago('Credito')"><span>📄</span>Crédito</div>
+        </div>
+      </div>
+      <div class="g2">
+        <div class="f"><label>Garantía</label>
+          <select id="garantia">
+            <option>30 días mano de obra</option>
+            <option>60 días mano de obra</option>
+            <option>90 días mano de obra</option>
+            <option>Sin garantía</option>
+          </select>
+        </div>
+        <div class="f"><label>Próximo servicio</label>
+          <input id="proximoServicio" placeholder="Ej: 3 meses">
+        </div>
+      </div>
+      <div class="f"><label>Observaciones</label>
+        <textarea id="observaciones" placeholder="Recomendaciones al cliente..."></textarea>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottom">
+  <button class="btn-clear" onclick="clearForm()">🗑</button>
+  <button class="btn-pdf" onclick="window.print()">⬇ Guardar PDF</button>
+</div>
+
+<script>
+document.getElementById('fecha').valueAsDate = new Date();
+let pagoSel = 'Efectivo';
+
+function selPago(p) {
+  pagoSel = p;
+  ['Efectivo','Transferencia','Credito'].forEach(t => document.getElementById('p'+t).classList.remove('sel'));
+  document.getElementById('p'+p).classList.add('sel');
+}
+
+function previewFoto(input, previewId, labelId) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+    document.getElementById(labelId).classList.add('taken');
+  };
+  reader.readAsDataURL(file);
+}
+
+function calcMat() {
+  const rows = document.querySelectorAll('#matBody .mat-row');
+  let sub = 0;
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    const c = parseFloat(inputs[1].value)||0;
+    const u = parseFloat(inputs[2].value)||0;
+    const t = c*u;
+    inputs[3].value = t>0 ? t : '';
+    sub += t;
+  });
+  const mano = parseFloat(document.getElementById('manoObra').value)||0;
+  document.getElementById('totalFinal').textContent = '$ ' + (sub+mano).toLocaleString('es-CO');
+}
+
+function prog() {
+  const ids = ['otNum','fecha','tecnico','cliente','direccion','tipoEquipo','diagnostico','t1'];
+  const filled = ids.filter(id => document.getElementById(id).value.trim()).length;
+  document.getElementById('pFill').style.width = Math.round(filled/ids.length*100)+'%';
+}
+
+function clearForm() {
+  if (!confirm('¿Limpiar todo?')) return;
+  document.querySelectorAll('input:not([readonly]),textarea,select').forEach(el => {
+    if (el.type==='date') el.valueAsDate=new Date();
+    else if (el.tagName==='SELECT') el.selectedIndex=0;
+    else el.value='';
+  });
+  ['prevBefore','prevAfter'].forEach(id => { const img=document.getElementById(id); img.src=''; img.style.display='none'; });
+  ['lblBefore','lblAfter'].forEach(id => document.getElementById(id).classList.remove('taken'));
+  selPago('Efectivo');
+  document.getElementById('totalFinal').textContent='$ 0';
+  document.getElementById('otDisplay').textContent='001';
+  prog();
+}
+
+prog();
+</script>
+</body>
+</html>
